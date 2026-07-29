@@ -74,7 +74,7 @@ function pageHref(basePath: string, category: string, page: number) {
 
 const taskGrid: Record<TaskKey, string> = {
   article: 'grid gap-7 md:grid-cols-2 xl:grid-cols-3',
-  listing: 'grid gap-5 xl:grid-cols-2',
+  listing: 'grid gap-6 sm:grid-cols-2 xl:grid-cols-3',
   classified: 'grid gap-5 sm:grid-cols-2 xl:grid-cols-3',
   image: 'columns-1 gap-5 [column-fill:_balance] sm:columns-2 xl:columns-3',
   sbm: 'grid gap-5 md:grid-cols-2 xl:grid-cols-3',
@@ -113,28 +113,28 @@ export function TaskArchiveView({ task, posts, pagination, category, basePath }:
   return (
     <EditableSiteShell>
       <main style={taskThemeStyle(task)} className="min-h-screen bg-[var(--tk-bg)] text-[var(--tk-text)]">
-        <header className="relative overflow-hidden border-b border-[var(--tk-line)]">
-          <div className="pointer-events-none absolute inset-x-0 -top-40 h-96 bg-[radial-gradient(60%_60%_at_50%_0%,var(--tk-glow),transparent_70%)]" />
+        <header className="relative overflow-hidden bg-[var(--slot4-dark-bg)] text-white">
+          <div className="pointer-events-none absolute -right-24 -top-40 h-[32rem] w-[32rem] rounded-full bg-[var(--slot4-accent)]/15 blur-3xl" />
           <div className="relative mx-auto max-w-[var(--editable-container)] px-6 py-20 sm:py-28 lg:px-8">
             <div className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.34em] text-[var(--tk-accent)]">
               <span>{theme.kicker}</span>
               <span className="h-1 w-1 rounded-full bg-[var(--tk-accent)] opacity-50" />
-              <span className="text-[var(--tk-muted)]">{label}</span>
+              <span className="text-white/55">{label}</span>
             </div>
             <h1 className="editable-display mt-6 max-w-3xl text-balance text-[2.5rem] font-semibold leading-[1.06] tracking-[-0.03em] sm:text-5xl lg:text-6xl">
               {voice?.headline || `Browse ${label}`}
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--tk-muted)]">{voice?.description || theme.note}</p>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">{voice?.description || theme.note}</p>
             {voice?.chips?.length ? (
               <div className="mt-8 flex flex-wrap gap-2.5">
                 {voice.chips.map((chip) => (
-                  <span key={chip} className="rounded-full border border-[var(--tk-line)] bg-[var(--tk-surface)] px-3.5 py-1.5 text-xs font-medium text-[var(--tk-muted)]">{chip}</span>
+                  <span key={chip} className="rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-white/70">{chip}</span>
                 ))}
               </div>
             ) : null}
 
-            <div className="mt-12 flex flex-col gap-4 border-t border-[var(--tk-line)] pt-6 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-sm text-[var(--tk-muted)]">
+            <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm text-white/60">
                 <span className="font-semibold text-[var(--tk-text)]">{posts.length}</span> {posts.length === 1 ? 'post' : 'posts'} · {categoryLabel}
               </p>
               <form action={basePath} className="flex items-center gap-2.5">
@@ -142,7 +142,7 @@ export function TaskArchiveView({ task, posts, pagination, category, basePath }:
                   <select
                     name="category"
                     defaultValue={category}
-                    className="h-11 appearance-none rounded-full border border-[var(--tk-line)] bg-[var(--tk-surface)] pl-4 pr-10 text-sm font-medium text-[var(--tk-text)] outline-none transition focus:border-[var(--tk-accent)]"
+                    className="h-11 appearance-none rounded-full border border-white/15 bg-white pl-4 pr-10 text-sm font-medium text-[var(--tk-text)] outline-none transition focus:border-[var(--tk-accent)]"
                     aria-label={voice?.filterLabel || 'Filter category'}
                   >
                     <option value="all">All categories</option>
@@ -264,21 +264,24 @@ function ListingArchiveCard({ post, href }: { post: SitePost; href: string }) {
   const phone = getField(post, ['phone', 'telephone', 'mobile'])
   const website = getField(post, ['website', 'url'])
   return (
-    <Link href={href} className={`${cardBase} flex items-center gap-5 p-5 sm:p-6`}>
-      <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-[1rem] border border-[var(--tk-line)] bg-[var(--tk-raised)]">
-        {logo ? <img src={logo} alt="" className="h-full w-full object-cover" /> : <BriefcaseBusiness className="h-9 w-9 text-[var(--tk-muted)]" />}
+    <Link href={href} className={`${cardBase} overflow-hidden`}>
+      <div className="relative aspect-[16/10] overflow-hidden bg-[var(--tk-raised)]">
+        {logo ? <img src={logo} alt="" className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]" /> : <div className="flex h-full items-center justify-center"><BriefcaseBusiness className="h-12 w-12 text-[var(--tk-muted)]" /></div>}
+        <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--tk-accent)] shadow-sm">Verified business</span>
       </div>
-      <div className="min-w-0 flex-1">
-        <h2 className="editable-display truncate text-xl font-semibold tracking-[-0.02em]">{post.title}</h2>
+      <div className="p-6">
+        <div className="flex items-start justify-between gap-4">
+          <h2 className="editable-display line-clamp-2 text-xl font-semibold tracking-[-0.02em]">{post.title}</h2>
+          <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-[var(--tk-muted)] transition group-hover:text-[var(--tk-accent)]" />
+        </div>
         <RatingLine post={post} />
-        <p className="mt-2 line-clamp-1 text-sm leading-6 text-[var(--tk-muted)]">{getSummary(post)}</p>
-        <div className="mt-3 flex flex-wrap gap-3 text-xs font-medium text-[var(--tk-muted)]">
+        <p className="mt-3 line-clamp-2 text-sm leading-6 text-[var(--tk-muted)]">{getSummary(post)}</p>
+        <div className="mt-5 flex flex-wrap gap-3 border-t border-[var(--tk-line)] pt-4 text-xs font-medium text-[var(--tk-muted)]">
           {location ? <span className="inline-flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5 text-[var(--tk-accent)]" /> {location}</span> : null}
           {phone ? <span className="inline-flex items-center gap-1.5"><Phone className="h-3.5 w-3.5 text-[var(--tk-accent)]" /> {phone}</span> : null}
           {website ? <span className="inline-flex items-center gap-1.5"><Globe className="h-3.5 w-3.5 text-[var(--tk-accent)]" /> Website</span> : null}
         </div>
       </div>
-      <ArrowUpRight className="h-5 w-5 shrink-0 text-[var(--tk-muted)] transition group-hover:text-[var(--tk-accent)]" />
     </Link>
   )
 }
