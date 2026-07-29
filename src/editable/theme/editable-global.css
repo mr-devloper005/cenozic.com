@@ -1,5 +1,5 @@
 /*
-  Editable global theme layer.
+  Editable global theme layer — HERE-inspired design system.
 
   Safe for UI editors / AI tools:
   - Full site background
@@ -12,11 +12,11 @@
   Do not add data fetching, scripts, or route logic here.
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* Per-task display + body typefaces (consumed via task-themes.ts). */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&family=Syne:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600;700&display=swap');
+/* Per-task secondary fonts */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 
 body {
   background-color: var(--slot4-page-bg) !important;
@@ -25,10 +25,10 @@ body {
 }
 
 .editable-site-root {
-  /* Yelp-style clean sans, used for both display and body. */
-  --editable-font-display: 'Inter', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  /* HERE-inspired premium type stack */
+  --editable-font-display: 'Plus Jakarta Sans', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
   --editable-font-body: 'Inter', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  /* Premium easing curve used across every hover + transition. */
+  /* Premium easing curve used across every hover + transition */
   --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
   font-family: var(--editable-font-body);
 }
@@ -37,9 +37,7 @@ body {
   Site-wide premium motion.
 
   1. Unify the easing of every existing transition/hover to one refined curve.
-  2. Add a smooth "post open" entry animation that replays on each navigation
-     (driven by EditablePageMotion remounting the content per route).
-  Durations stay defined per-component via Tailwind utilities.
+  2. Add a smooth "post open" entry animation that replays on each navigation.
 */
 .editable-site-root *,
 .editable-site-root *::before,
@@ -50,7 +48,7 @@ body {
 @keyframes editable-enter {
   from {
     opacity: 0;
-    transform: translate3d(0, 22px, 0);
+    transform: translate3d(0, 18px, 0);
   }
   to {
     opacity: 1;
@@ -58,10 +56,8 @@ body {
   }
 }
 
-/* The content region rises + fades on open; `backwards` clears the transform
-   afterwards so sticky sidebars keep working. */
 .editable-enter > * {
-  animation: editable-enter 0.6s var(--ease-premium) backwards;
+  animation: editable-enter 0.55s var(--ease-premium) backwards;
   will-change: transform, opacity;
 }
 
@@ -83,7 +79,7 @@ body {
 .editable-site-root h4,
 .editable-display {
   font-family: var(--editable-font-display);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 
 .editable-site-root p,
@@ -96,28 +92,74 @@ body {
   font-family: var(--editable-font-body);
 }
 
+/* Text selection: teal highlight on dark text */
 ::selection {
-  background: color-mix(in oklab, var(--slot4-accent-fill) 28%, transparent);
-  color: var(--slot4-page-text);
+  background: color-mix(in oklab, var(--slot4-accent) 30%, transparent);
+  color: var(--slot4-dark-bg);
+}
+
+/* Scrollbar — teal on neutral track */
+::-webkit-scrollbar {
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: color-mix(in oklab, var(--slot4-page-bg) 88%, black);
+  background: color-mix(in oklab, var(--slot4-page-bg) 92%, black);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: color-mix(in oklab, var(--slot4-accent) 45%, transparent);
+  background: color-mix(in oklab, var(--slot4-accent) 50%, transparent);
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in oklab, var(--slot4-accent) 68%, transparent);
+  background: color-mix(in oklab, var(--slot4-accent) 72%, transparent);
 }
 
+/* Article body typography */
 .article-content h2 {
-  color: var(--slot4-accent);
+  color: var(--slot4-page-text);
+  font-family: var(--editable-font-display);
+}
+
+.article-content h3 {
+  color: var(--slot4-page-text);
+  font-family: var(--editable-font-display);
 }
 
 .article-content a {
   color: var(--slot4-accent-fill);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--slot4-accent) 40%, transparent);
+  text-underline-offset: 3px;
+}
+
+.article-content a:hover {
+  color: var(--slot4-dark-bg);
+}
+
+/* Dark surface card hover glow */
+.here-card-dark:hover {
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--slot4-accent) 40%, transparent),
+              0 16px 48px rgba(13, 50, 66, 0.22);
+}
+
+/* Announcement bar pulse */
+@keyframes here-pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.here-live-dot {
+  animation: here-pulse-dot 2s ease-in-out infinite;
+}
+
+/* Stat number animation on scroll (CSS only) */
+@keyframes here-count-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.here-stat-num {
+  animation: here-count-in 0.6s var(--ease-premium) backwards;
 }
